@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Irrigation Calculator</title>
+	
+	<link rel="shortcut icon" href="images/favicon.io.png">
+	<link rel="stylesheet" href="css/irrigationcalculator.css">
+
+	<script src="js/calculator.js" type="module"></script>
+
+</head>
+<body>
+	<div id="header-div">
+		<div id="white-bar">
+			<a id="homepage-url" href="https://www.cedarhills.org/">
+				<div id="logo">
+					<img id="logo-img" src="images/Town_of_Cedar_Hills_UT_Logo.png" alt="Cedar Hills Logo">
+				</div>
+				<div id="title">
+					<h1>City of Cedar Hills</h1>
+				</div>
+			</a>
+		</div>
+		<div id="green-bar"></div>
+	</div>
+
+	<div id="body-div">
+		<div id="main-container">
+			<div id="description-div">
+				<h2>Irrigation Calculator</h2>
+				<p>Cedar Hills has installed pressurized irrigation (PI) water meters on all customer 
+					connections at the beginning of 2023 to comply with State of Utah mandates, 
+					encourage water conservation, preserve a reliable water supply, and increase equity in billing.
+					<br><br>
+					A tiered rate structure based on usage will allow the City to more equitably distribute 
+					system costs among users based on actual water use. The intent of this rate structure is to more 
+					equitably distribute costs among users and discourage wasteful use.
+					<br><br>
+					Cedar Hills has created an irrigation calculator to help customers estimate the cost of 
+					their bill. Enter your lot size to determine the base monthly payment and estimate what 
+					your bill would be at different water usage amounts.
+					<br><br>
+					Don't know your lot size? Use the <a href="https://parcels.utah.gov/" target="_blank">Utah Parcel Map</a> to look it up.
+				</p>
+			</div>
+	
+			<div id="calculator">
+				<div id="clac-header">
+					<h2>Cedar Hills Residential Irrigation Calculator</h2>
+					<p>(Non-Drought and Non-Water Shortage Conditions)</p>
+				</div>
+				<div id="table-div">
+					<div class="calc-row">
+						<div class="cell-left">
+							<p>Is your lot larger than 0.5 acres?</p>
+						</div>
+						<div class="cell-right">
+							<input id="oversized-lot" class="check-box" type="checkbox">
+							<div>
+								<p>(Check if yes)</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div id="lot-description" class="cell-left">
+							<p>Your lot size:</p>
+						</div>
+						<div class="cell-right">
+							<input id="lot-size" class="cell-box" type="number" min="0.01" step="0.1">
+							<div>
+								<p><b>acres</b></p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p>Your monthly base rate</p>
+						</div>
+						<div class="cell-right">
+							<div id="base-rate" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								<p>per month</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p>Your water allotment</p>
+						</div>
+						<div class="cell-right">
+							<div id="water-allotment" class="cell-box">
+								<p>0</p>
+							</div>
+							<div>
+								<p>thousand gallons</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p>Water usage (per thousand gallons)</p>
+						</div>
+						<div class="cell-right">
+							<input id="water-usage" class="cell-box" type="number" min="0" step="0.1">
+							<div>
+								<p><b>thousand gallons</b></p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p id="tier1description">Tier 1 (0% to 75% of water allotment)</p>
+						</div>
+						<div class="cell-right">
+							<div id="tier1" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								<p>$0.30 per 1,000 gallons</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p id="tier2description">Tier 2 (76% to 100% of water allotment)</p>
+						</div>
+						<div class="cell-right">
+							<div id="tier2" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								<p>$0.70 per 1,000 gallons</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p id="tier3description">Tier 3 (101% to 150% of water allotment)</p>
+						</div>
+						<div class="cell-right">
+							<div id="tier3" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								<p>$1.15 per 1,000 gallons</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p id="tier4description">Tier 4 (151% to 200% of water allotment)</p>
+						</div>
+						<div class="cell-right">
+							<div id="tier4" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								<p>$2.50 per 1,000 gallons</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p id="tier5description">Tier 5 (201% to 250% of water allotment)</p>
+						</div>
+						<div class="cell-right">
+							<div id="tier5" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								<p>$3.10 per 1,000 gallons</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p id="tier6description">Tier 6 (251% and more of water allotment)</p>
+						</div>
+						<div class="cell-right">
+							<div id="tier6" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								<p>$3.95 per 1,000 gallons</p>
+							</div>
+						</div>
+					</div>
+					<div class="calc-row">
+						<div class="cell-left">
+							<p>Est Monthly Secondary Water Bill</p>
+						</div>
+						<div class="cell-right">
+							<div id="est-bill" class="cell-box">
+								<p>$0.00</p>
+							</div>
+							<div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -19,7 +19,7 @@ ready(function () {
 
     let calculateIrrigatedArea = function (lotSize) {
         let irrigatedArea;
-        let isChecked = document.getElementById('oversized-lot').checked;
+        //let isChecked = document.getElementById('oversized-lot').checked;
 
         //if (!isChecked && lotSize > 0.5) {
         //    document.getElementById('lot-size').style.backgroundColor = '#ff0000';
@@ -29,8 +29,8 @@ ready(function () {
 
         if (lotSize < 0.12) {
             irrigatedArea = 0.02;
-        } else if (isChecked) {
-            irrigatedArea = document.getElementById('lot-size').value;
+        //} else if (isChecked) {
+        //    irrigatedArea = document.getElementById('lot-size').value;
         } else {
             irrigatedArea = (lotSize * 0.707692) - 0.05828; 
         }
@@ -126,7 +126,7 @@ ready(function () {
         calculateBaseRate(lotSize, waterUsage);
     });
 
-    document.getElementById('oversized-lot').addEventListener("click", (event) => {
+    /*document.getElementById('oversized-lot').addEventListener("click", (event) => {
         let isChecked = event.target.checked;
 
         if (isChecked) {
@@ -139,5 +139,5 @@ ready(function () {
         const waterUsage = document.getElementById('water-usage').value * 1000;
         const lotSize = document.getElementById('lot-size').value;
         calculateBaseRate(lotSize, waterUsage);
-    });
+    });*/
 });

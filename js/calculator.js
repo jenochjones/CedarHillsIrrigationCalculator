@@ -21,11 +21,11 @@ ready(function () {
         let irrigatedArea;
         let isChecked = document.getElementById('oversized-lot').checked;
 
-        if (!isChecked && lotSize > 0.5) {
-            document.getElementById('lot-size').style.backgroundColor = '#ff0000';
-        } else {
-            document.getElementById('lot-size').style.backgroundColor = '#ffeee0';
-        }
+        //if (!isChecked && lotSize > 0.5) {
+        //    document.getElementById('lot-size').style.backgroundColor = '#ff0000';
+        //} else {
+        //    document.getElementById('lot-size').style.backgroundColor = '#ffeee0';
+        //}
 
         if (lotSize < 0.12) {
             irrigatedArea = 0.02;

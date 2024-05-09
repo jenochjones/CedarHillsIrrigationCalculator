@@ -136,6 +136,13 @@ input {
     background-color: #ffeee0;
 }
 
+#allotment-facotr {
+    height: 1.7em;
+    padding: 0;
+    border: none;
+    background-color: #f57f5b;
+}
+
 #water-usage {
     height: 1.7em;
     padding: 0;

@@ -46,9 +46,10 @@ ready(function () {
     }
 
     let calculateBaseRate = function (lotSize, waterUsage) {
+        let allotmentFactor = document.getElementById('allotment-facotr').value;
         const baseRate = 23 + (40 * lotSize);
         const irrigatedArea = calculateIrrigatedArea(lotSize);
-        const allotment = irrigatedArea * 153;
+        const allotment = irrigatedArea * allotmentFactor; //153;
 
         const formattedAllotment = Math.round(allotment * 100) / 100;
         const formattedBaseRate = format(baseRate);
@@ -122,6 +123,12 @@ ready(function () {
 
     document.getElementById('water-usage').addEventListener("input", (event) => {
         let waterUsage = event.target.value * 1000;
+        const lotSize = document.getElementById('lot-size').value;
+        calculateBaseRate(lotSize, waterUsage);
+    });
+
+    document.getElementById('allotment-facotr').addEventListener("input", (event) => {
+        const waterUsage = document.getElementById('water-usage').value * 1000;
         const lotSize = document.getElementById('lot-size').value;
         calculateBaseRate(lotSize, waterUsage);
     });

@@ -198,7 +198,7 @@ input {
 
 .cell-box {
     height: 1.5em;
-    width: 40%;
+    width: 35%;
     background-color: rgba(199, 199, 199, 0.5);
     display: flex;
     justify-content: center;

@@ -115,7 +115,7 @@ input {
 }
 
 #calculator {
-    width: 50%;
+    width: 55%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -125,7 +125,7 @@ input {
 }
 
 #graph {
-    width: 50%;
+    width: 45%;
     height: auto;
     display: flex;
     flex-direction: column;

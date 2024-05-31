@@ -42,7 +42,7 @@ input {
 }
 
 #white-bar {
-    width: 100vw;
+    width: 100%;
     height: 6.5em;
     display: flex;
     flex-direction: row;
@@ -78,7 +78,7 @@ input {
 }
 
 #green-bar {
-    width: 100vw;
+    width: 100%;
     height: 3.5em;
     background-color: #004E4D;
 }
@@ -86,7 +86,7 @@ input {
 #body-div {
     background-color: #fff;
     height: auto;
-    width: 100vw;
+    width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -94,7 +94,7 @@ input {
 }
 
 #main-container {
-    width: 100vw;
+    width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;

@@ -9,13 +9,54 @@ function ready(readyListener) {
 ready(function () {
 
     const tiers = {
-        0: 0.30,
-        75: 0.70,
+        0: 0.50,
+        75: 0.80,
         100: 1.15,
         150: 2.50,
         200: 3.10,
         250: 3.95
     };
+
+    const monthlyPercent = [0, 0.1, 0.15, 0.25, 0.25, 0.15, 0.1, 0];
+
+    const allotmentFactor = 143;
+
+    const requiredAllotmentFactor = 153;
+
+    let addPlotlyGraph = function (allotment) {
+        document.getElementById('yearly-allotment').innerHTML = `Yearly Amount: ${Math.round(allotment * 10) / 10} thousand gallons`;
+
+        // Define the data for the plot
+        let data = [{
+            x: ['April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'],
+            y: monthlyPercent.map(element => Math.round(element * allotment * 100) / 100),
+            type: 'bar'
+        }];
+
+        // Define the layout for the plot
+        let layout = {
+            autosize: true,
+            margin: {
+                l: 50, // left margin
+                r: 50, // right margin
+                b: 50, // bottom margin
+                t: 10  // top margin reduced
+            },
+            xaxis: {
+                title: 'Month'
+            },
+            yaxis: {
+                title: 'Water Usage (kgal)'
+            }
+        };
+
+        let config = {
+            displayModeBar: false // Hide the toolbar
+        };
+
+        // Render the plot in the div with id 'plotly-graph'
+        Plotly.newPlot('plotly-graph', data, layout, config);
+    }
 
     let calculateIrrigatedArea = function (lotSize) {
         let irrigatedArea;
@@ -46,10 +87,11 @@ ready(function () {
     }
 
     let calculateBaseRate = function (lotSize, waterUsage) {
-        let allotmentFactor = document.getElementById('allotment-facotr').value;
+        //let allotmentFactor = document.getElementById('allotment-facotr').value;
         const baseRate = 23 + (40 * lotSize);
         const irrigatedArea = calculateIrrigatedArea(lotSize);
-        const allotment = irrigatedArea * allotmentFactor; //153;
+        const allotment = lotSize * allotmentFactor;
+        const requiredAllotment = irrigatedArea * requiredAllotmentFactor;
 
         const formattedAllotment = Math.round(allotment * 100) / 100;
         const formattedBaseRate = format(baseRate);
@@ -58,6 +100,7 @@ ready(function () {
         document.getElementById('water-allotment').innerHTML = `<p>${formattedAllotment}`;
 
         calculateTiers(waterUsage, allotment * 1000, baseRate);
+        addPlotlyGraph(requiredAllotment);
     }
 
     let calculateTiers = function (waterUsage, allotment, baseRate) {
@@ -126,14 +169,14 @@ ready(function () {
         const lotSize = document.getElementById('lot-size').value;
         calculateBaseRate(lotSize, waterUsage);
     });
-
+/*
     document.getElementById('allotment-facotr').addEventListener("input", (event) => {
         const waterUsage = document.getElementById('water-usage').value * 1000;
         const lotSize = document.getElementById('lot-size').value;
         calculateBaseRate(lotSize, waterUsage);
     });
 
-    /*document.getElementById('oversized-lot').addEventListener("click", (event) => {
+    document.getElementById('oversized-lot').addEventListener("click", (event) => {
         let isChecked = event.target.checked;
 
         if (isChecked) {

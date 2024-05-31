@@ -17,19 +17,18 @@ ready(function () {
         250: 3.95
     };
 
-    const monthlyPercent = [0, 0.1, 0.15, 0.25, 0.25, 0.15, 0.1, 0];
+    const monthlyVol = [0, 83.4, 125.1, 208.5, 208.5, 125.1, 83.4, 0];
+
+    const yearlyVol = 843;
 
     const allotmentFactor = 143;
 
-    const requiredAllotmentFactor = 153;
-
-    let addPlotlyGraph = function (allotment) {
-        document.getElementById('yearly-allotment').innerHTML = `Yearly Amount: ${Math.round(allotment * 10) / 10} thousand gallons`;
+    let addPlotlyGraph = function (irrigatedArea) {
 
         // Define the data for the plot
         let data = [{
             x: ['April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'],
-            y: monthlyPercent.map(element => Math.round(element * allotment * 100) / 100),
+            y: monthlyVol.map(element => Math.round(element * irrigatedArea * 100) / 100),
             type: 'bar'
         }];
 
@@ -37,7 +36,7 @@ ready(function () {
         let layout = {
             autosize: true,
             margin: {
-                l: 50, // left margin
+                l: 100, // left margin
                 r: 50, // right margin
                 b: 50, // bottom margin
                 t: 10  // top margin reduced
@@ -56,6 +55,8 @@ ready(function () {
 
         // Render the plot in the div with id 'plotly-graph'
         Plotly.newPlot('plotly-graph', data, layout, config);
+
+        document.getElementById('yearly-allotment').innerHTML = `Yearly Amount: ${Math.round(yearlyVol * irrigatedArea * 10) / 10} thousand gallons`;
     }
 
     let calculateIrrigatedArea = function (lotSize) {
@@ -91,7 +92,6 @@ ready(function () {
         const baseRate = 23 + (40 * lotSize);
         const irrigatedArea = calculateIrrigatedArea(lotSize);
         const allotment = lotSize * allotmentFactor;
-        const requiredAllotment = irrigatedArea * requiredAllotmentFactor;
 
         const formattedAllotment = Math.round(allotment * 100) / 100;
         const formattedBaseRate = format(baseRate);
@@ -100,7 +100,7 @@ ready(function () {
         document.getElementById('water-allotment').innerHTML = `<p>${formattedAllotment}`;
 
         calculateTiers(waterUsage, allotment * 1000, baseRate);
-        addPlotlyGraph(requiredAllotment);
+        addPlotlyGraph(irrigatedArea);
     }
 
     let calculateTiers = function (waterUsage, allotment, baseRate) {

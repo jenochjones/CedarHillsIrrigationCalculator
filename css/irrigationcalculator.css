@@ -188,6 +188,7 @@ input {
 
 .cell-left {
     width: 50%;
+    text-align: left;
 }
 
 .cell-right {

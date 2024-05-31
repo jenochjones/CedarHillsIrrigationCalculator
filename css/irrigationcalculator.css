@@ -224,9 +224,17 @@ input {
         margin: 1em !important;
         width: calc(100% - 2em) !important;
     }
-    #clac-header {
+    .lower-header {
         margin: 1em !important;
         width: calc(100% - 2em) !important;
+    }
+
+    #lower-screen {
+        flex-direction: column;
+    }
+
+    #graph {
+        width: 100%;
     }
 
     .calc-row {

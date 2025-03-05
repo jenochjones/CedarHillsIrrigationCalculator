@@ -8,6 +8,9 @@ function ready(readyListener) {
 
 ready(function () {
 
+    // These are the tiers used to calculate the monthly water bill. An allowed water allotment
+    // is calculated and then every 1000 gal used within the tiered percentage of the allotment
+    // is billed at the value listed. (So someone who used 50% of their allotment would pay $0.5/1000gal)
     const tiers = {
         0: 0.50,
         75: 0.80,
@@ -27,11 +30,13 @@ ready(function () {
         0.5: 15.57
     }
 
+    // These are the volumes of water needed per acre (in kgal) for a healthy lawn each month.
     const monthlyVol = [0, 83.4, 125.1, 208.5, 208.5, 125.1, 83.4, 0];
 
-    const yearlyVol = 843;
+    // const yearlyVol = 843;
 
-    const allotmentFactor = 143;
+    // The city determined this allotment factor to allow for a more generous rate structure.
+    const allotmentFactor = 140;
 
     let addPlotlyGraph = function (irrigatedArea) {
 

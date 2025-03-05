@@ -17,6 +17,16 @@ ready(function () {
         250: 3.95
     };
 
+    // Update this to update the base rate. The key is the lot size while the value is the cost.
+    // The first entry is the base rate for all customers. Each additional entry is the amount
+    // added to the base rate for lots less than or equal to the lot size in the key.
+    const lotSizeBaseRates = {
+        0: 38.58,
+        0.25: 1.04,
+        0.33: 5.88,
+        0.5: 15.57
+    }
+
     const monthlyVol = [0, 83.4, 125.1, 208.5, 208.5, 125.1, 83.4, 0];
 
     const yearlyVol = 843;
@@ -38,16 +48,20 @@ ready(function () {
             margin: {
                 l: 100, // left margin
                 r: 50, // right margin
-                b: 50, // bottom margin
+                b: 30, // bottom margin
                 t: 10  // top margin reduced
             },
             xaxis: {
-                title: 'Month'
+              title: {
+                text: 'Month',
+              },
             },
             yaxis: {
-                title: 'Water Usage (kgal)'
+              title: {
+                text: 'Monthly Usage (kgal)',
+              }
             }
-        };
+          };
 
         let config = {
             displayModeBar: false // Hide the toolbar
@@ -56,7 +70,7 @@ ready(function () {
         // Render the plot in the div with id 'plotly-graph'
         Plotly.newPlot('plotly-graph', data, layout, config);
 
-        document.getElementById('yearly-allotment').innerHTML = `Yearly Amount: ${Math.round(yearlyVol * irrigatedArea * 10) / 10} thousand gallons`;
+        //document.getElementById('yearly-allotment').innerHTML = `Yearly Amount: ${Math.round(yearlyVol * irrigatedArea * 10) / 10} thousand gallons`;
     }
 
     let calculateIrrigatedArea = function (lotSize) {
@@ -89,18 +103,41 @@ ready(function () {
 
     let calculateBaseRate = function (lotSize, waterUsage) {
         //let allotmentFactor = document.getElementById('allotment-facotr').value;
-        const baseRate = 23 + (40 * lotSize);
-        const irrigatedArea = calculateIrrigatedArea(lotSize);
-        const allotment = lotSize * allotmentFactor;
+        //const baseRate = 23 + (40 * lotSize);
+        if (lotSize > 0.5) {
+            document.getElementById("lot-size").style.backgroundColor = "red";
+        } else if (lotSize === 0) {
 
-        const formattedAllotment = Math.round(allotment * 100) / 100;
-        const formattedBaseRate = format(baseRate);
+            updateMonthlyBill(lotSizeBaseRates[0], Array(tiers.length).fill(0));
+        } else {
+            document.getElementById("lot-size").style.backgroundColor = "#ffeee0";
 
-        document.getElementById('base-rate').innerHTML = `<p>${formattedBaseRate}`;
-        document.getElementById('water-allotment').innerHTML = `<p>${formattedAllotment}`;
+            let baseRate = lotSizeBaseRates[0];
 
-        calculateTiers(waterUsage, allotment * 1000, baseRate);
-        addPlotlyGraph(irrigatedArea);
+            const keys = Object.keys(lotSizeBaseRates).map(Number).sort((a, b) => a - b);
+            
+            for (let key of keys) {
+                if (lotSize > 0) {
+                    if (key >= lotSize && key !== 0) {
+                        baseRate += lotSizeBaseRates[key];
+                        break;
+                    }
+                }
+            }
+
+            const irrigatedArea = calculateIrrigatedArea(lotSize);
+            const allotment = lotSize * allotmentFactor;
+
+            const formattedAllotment = Math.round(allotment * 100) / 100;
+            const formattedBaseRate = format(baseRate);
+
+
+            document.getElementById('base-rate').innerHTML = `<p>${formattedBaseRate}`;
+            document.getElementById('water-allotment').innerHTML = `<p>${formattedAllotment}`;
+            
+            calculateTiers(waterUsage, allotment * 1000, baseRate);
+            addPlotlyGraph(irrigatedArea);
+        }
     }
 
     let calculateTiers = function (waterUsage, allotment, baseRate) {
@@ -115,10 +152,10 @@ ready(function () {
 
         let tierValues = [];
 
-        const percentageOfAllotment = (waterUsage / allotment) * 100;
+        const percentageOfAllotment = allotment === 0 ? 0 : (waterUsage / allotment) * 100;
         
         let tierCounter = 0;
-        
+        debugger
         for (let tier in tiers) {
             if (percentageOfAllotment < tier) {
                 tierValues.push(0);
@@ -135,7 +172,7 @@ ready(function () {
             }
             tierCounter += 1;
         }
-
+        
         let tierAmountCounter = 1;
 
         for (let tierAmount in tierValues) {

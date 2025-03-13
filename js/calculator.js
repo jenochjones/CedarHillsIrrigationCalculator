@@ -24,7 +24,7 @@ ready(function () {
     // The first entry is the base rate for all customers. Each additional entry is the amount
     // added to the base rate for lots less than or equal to the lot size in the key.
     const lotSizeBaseRates = {
-        0: 38.58,
+        0: 38.08,
         1: 5
     }
 
@@ -105,28 +105,11 @@ ready(function () {
     }
 
     let calculateBaseRate = function (lotSize, waterUsage) {
-        //let allotmentFactor = document.getElementById('allotment-facotr').value;
-        //const baseRate = 23 + (40 * lotSize);
-        //if (lotSize > 0.5) {
-        //    document.getElementById("lot-size").style.backgroundColor = "red";
-        //} else if (lotSize === 0) {
+        if (lotSize === '') {
+            lotSize = 0;
+        }
 
-        //    updateMonthlyBill(lotSizeBaseRates[0], Array(tiers.length).fill(0));
-        //} else {
-        document.getElementById("lot-size").style.backgroundColor = "#ffeee0";
-
-        let baseRate = lotSizeBaseRates[0] + ( lotSizeBaseRates[0] * lotSize );
-
-        //const keys = Object.keys(lotSizeBaseRates).map(Number).sort((a, b) => a - b);
-        
-        //for (let key of keys) {
-        //    if (lotSize > 0) {
-        //        if (key >= lotSize && key !== 0) {
-        //            baseRate += lotSizeBaseRates[key];
-        //            break;
-        //        }
-        //    }
-        //}
+        let baseRate = parseFloat(lotSizeBaseRates[0]) + ( parseFloat(lotSizeBaseRates[1]) * parseFloat(lotSize) );
 
         const irrigatedArea = calculateIrrigatedArea(lotSize);
         const allotment = lotSize * allotmentFactor;

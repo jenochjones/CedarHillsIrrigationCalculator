@@ -12,9 +12,9 @@ ready(function () {
     // is calculated and then every 1000 gal used within the tiered percentage of the allotment
     // is billed at the value listed. (So someone who used 50% of their allotment would pay $0.5/1000gal)
     const tiers = {
-        0: 0.50,
-        75: 0.80,
-        100: 1.15,
+        0: 0.70,
+        75: 1.00,
+        100: 1.50,
         150: 2.50,
         200: 3.10,
         250: 3.95
@@ -25,9 +25,7 @@ ready(function () {
     // added to the base rate for lots less than or equal to the lot size in the key.
     const lotSizeBaseRates = {
         0: 38.58,
-        0.25: 1.04,
-        0.33: 5.88,
-        0.5: 15.57
+        1: 5
     }
 
     // These are the volumes of water needed per acre (in kgal) for a healthy lawn each month.
@@ -109,40 +107,40 @@ ready(function () {
     let calculateBaseRate = function (lotSize, waterUsage) {
         //let allotmentFactor = document.getElementById('allotment-facotr').value;
         //const baseRate = 23 + (40 * lotSize);
-        if (lotSize > 0.5) {
-            document.getElementById("lot-size").style.backgroundColor = "red";
-        } else if (lotSize === 0) {
+        //if (lotSize > 0.5) {
+        //    document.getElementById("lot-size").style.backgroundColor = "red";
+        //} else if (lotSize === 0) {
 
-            updateMonthlyBill(lotSizeBaseRates[0], Array(tiers.length).fill(0));
-        } else {
-            document.getElementById("lot-size").style.backgroundColor = "#ffeee0";
+        //    updateMonthlyBill(lotSizeBaseRates[0], Array(tiers.length).fill(0));
+        //} else {
+        document.getElementById("lot-size").style.backgroundColor = "#ffeee0";
 
-            let baseRate = lotSizeBaseRates[0];
+        let baseRate = lotSizeBaseRates[0] + ( lotSizeBaseRates[0] * lotSize );
 
-            const keys = Object.keys(lotSizeBaseRates).map(Number).sort((a, b) => a - b);
-            
-            for (let key of keys) {
-                if (lotSize > 0) {
-                    if (key >= lotSize && key !== 0) {
-                        baseRate += lotSizeBaseRates[key];
-                        break;
-                    }
-                }
-            }
+        //const keys = Object.keys(lotSizeBaseRates).map(Number).sort((a, b) => a - b);
+        
+        //for (let key of keys) {
+        //    if (lotSize > 0) {
+        //        if (key >= lotSize && key !== 0) {
+        //            baseRate += lotSizeBaseRates[key];
+        //            break;
+        //        }
+        //    }
+        //}
 
-            const irrigatedArea = calculateIrrigatedArea(lotSize);
-            const allotment = lotSize * allotmentFactor;
+        const irrigatedArea = calculateIrrigatedArea(lotSize);
+        const allotment = lotSize * allotmentFactor;
 
-            const formattedAllotment = Math.round(allotment * 100) / 100;
-            const formattedBaseRate = format(baseRate);
+        const formattedAllotment = Math.round(allotment * 100) / 100;
+        const formattedBaseRate = format(baseRate);
 
 
-            document.getElementById('base-rate').innerHTML = `<p>${formattedBaseRate}`;
-            document.getElementById('water-allotment').innerHTML = `<p>${formattedAllotment}`;
-            
-            calculateTiers(waterUsage, allotment * 1000, baseRate);
-            addPlotlyGraph(irrigatedArea);
-        }
+        document.getElementById('base-rate').innerHTML = `<p>${formattedBaseRate}`;
+        document.getElementById('water-allotment').innerHTML = `<p>${formattedAllotment}`;
+        
+        calculateTiers(waterUsage, allotment * 1000, baseRate);
+        addPlotlyGraph(irrigatedArea);
+        //}
     }
 
     let calculateTiers = function (waterUsage, allotment, baseRate) {

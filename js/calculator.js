@@ -51,7 +51,7 @@ ready(function () {
             margin: {
                 l: 100, // left margin
                 r: 50, // right margin
-                b: 30, // bottom margin
+                b: 50, // bottom margin
                 t: 10  // top margin reduced
             },
             xaxis: {
